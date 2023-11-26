@@ -49,5 +49,29 @@ ggplot(data = metro,
        color = "HOLC Grade")
 ```
 
+## Add results from one analysis
 
+```{r}
+library(broom)
+
+regression_1 <- lm(pct_asian ~ holc_grade, data = metro)
+regression_1 |>
+  broom::tidy() |>
+  select(term, estimate) |>
+  knitr::kable(digits = 2)
+
+```
+
+```{r}
+library(broom)
+
+regression_2 <- lm(pct_white ~ holc_grade, data = metro)
+regression_2 |>
+  broom::tidy() |>
+  select(term, estimate) |>
+  knitr::kable(digits = 2)
+
+```
+
+The variable pct_asian represents the estimate of the perctange of the total population within the HOLC zone that are non-Hispanic Asian. The variable pct_white represents the estimate of the percentage of the total population within the HOLC zone that are non-Hispanic White. The variable holc_grade represents the grade assigned by the Home Owners' Loan Corporation (HOLC). An A is "best", a B is "Still Desirable", a C is "Definitely Declining", and a D is "Hazardous". The regression tables show the relationships between pct_asian and  holc_grade and pct_white and holc_grade. For pct_asian, the holc_grade gets higher as pct_asian increases. For pct_white, the holc_grade gets lower as pct_white increases. This shows there is relationship between what grade a metro_area receives and what its pct_asian population is versus its pct_white population.
 
