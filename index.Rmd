@@ -55,7 +55,7 @@ ggplot(metro, aes(x = holc_grade, y = pct_white, fill = holc_grade)) +
      caption = "Source: FiveThirtyEight") +
   scale_fill_manual(values = c("A" = "green", "B" = "blue", "C" = "yellow", "D" = "red"))
 ```
-To further demonstrate this, I have provided a plot with the opposite relationship. This bar graph demonstrates the relationship between the white population increase of today and the past HOLC grade the metro area received. As the white population percentage of an area increases, the more likely they were to receive a better score. 
+To further demonstrate this, I have provided a plot with the opposite relationship. This bar graph demonstrates the relationship between the white population increase of today and the past HOLC grade the metro area received. As the white population percentage of an area increases, the more likely they were to receive a better score.
 
 This study is an observational study because the data has not been manipulated by researchers. Instead, it is data collected by researchers from one point in time (2020 U.S. decennial census) and is compared to the 1935-1940 grades given to metro zones by the HOLC. The data involves the collection of existing records and databases.
 
