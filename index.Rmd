@@ -1,25 +1,28 @@
 ---
 title: "Gov 50 Final Project"
 author: "Layla Chaaraoui"
-description: "My final project"
+description: "How Has Redlining Impacted Black Populations? An Analysis"
 output:
   distill::distill_article:
     self_contained: false
+    
 ---
 
+## Introduction
 
+Between 1935-1940, the Home Owners' Loan Corporation (HOLC) graded 138 metropolitan areas either an A (Best, Green), a B (Still Desireable, Blue), a C (Definitely Declining, Yellow) or a D (Hazardous, Red). The purpose of the HOLC was initially to aide the homeowners and expand housing developments. Yet, the HOLC infamously contributed to something far greater: redlining.
 
-## Project thoughts
+Redlining refers to the discriminatory practice of refusing homes and other financial services to certain neighborhoods. This practice, based on racial composition, has led to decreased property values, lack of access for loans for housing or development, and limited resources for public services for minority communities especially. Though it has since been outlawed, it has had a profound and lasting impact on affected communities, violating "civil rights and fair housing laws" (Best, Mejía). Addressing redlining is important to understand the relationship between race, housing, and finance, and for combating systemic racism through becoming aware of these inequalities.
 
-I am interested in exploring data related to the lasting effects of redlining I'd like to explore how in areas that were redlined, what racial populations exist and how these numbers compare to each other. 
+Today, almost 75% of the zones that the HOLC graded Hazardous, or redlined, are low income (Best, Mejía). When the HOLC graded neighborhoods, they oftentimes only graded a zone low, or redlined it, if there was a large minority population, specifically Black, living there, citing it as reasoning for downward property trends (Best, Mejía). The disproportionate effects of the HOLC's grades are still felt on these Black communities today. This information begs the question: How has redlining impacted Black populations? In this study, I have examined the relationship between redlining and its impact on Black populations. 
 
-## Finding data and writing a proposal 
+The dataset I am evaluating is "The Lasting Legacy of Redlining" by FiveThirtyEight (https://github.com/fivethirtyeight/data/tree/master/redlining). This study contains 2020 population estimates, as determined by the 2020 U.S. Census, in zones for each redlining grade maps, scored by the Home Owners' Loan Corporation (HOLC). In each of the cities evaluated (`metro_area`), a score of A (best) to D (hazardous) was given in regards to the effects of redlining in that micro- or metropolitan area. I hypothesize that the `metro_area`s in the dataset that received a low `holc_grade` score (C (Definitely Declining) or D (Hazardous)) will today still have higher or disproportionate amounts of Black populations then of other demographic groups, thus contributing to their lower score due to its high Black population at the time. This means that I also hypothesize that the population demographics of today will be similar to those at the time of the redlining, proving an effect of treatment. The observed pattern in the data that would support my hypothesis is if areas with higher Black populations and percentages would then receive lower scores of Cs and Ds. This is important because the effects of redlining, like wealth, housing, economic, and health disparities, are still impacting these areas today. So, my study would prove that Black populations still live within these previously determined "less-desired" zones, and are continuing to reap the inequalities they left. 
 
-Data Source: The Lasting Legacy of Redlining, https://github.com/fivethirtyeight/data/tree/master/redlining 
+## Data
 
-How has redlining impacted Asian populations? In this study, I plan to examine the relationship between redlining and its impact on racial populations, specifically Asian populations. I hypothesize that the `metro_area`s in the dataset that received a low `holc_grade` score will have the lowest amounts of Asian populations then of other demographic groups, such as white and Black. I expect that the Asian population group will be the lowest in comparison to the other demographic groups, even in communities with high scores, but especially in those who received lower scores of C and D, thus receiving this score due to its low Asian population and disproportional community demographics. The study I am evaluating is "The Lasting Legacy of Redlining" by FiveThirtyEight. This study contains 2020 population estimates, as determined by the 2020 U.S. Census, in zones for each redlining grade maps, scored by the Home Owners Loan Corporation (HOLC). My sample is the `metro_area` evaluated, or cities and their state in micro- or metropolitan areas. The explanatory variables of interest I will be studying include `holc_grade` the score the city received from the HOLC, ranging from A (best) to D (hazardous). Additionally, I will be studying the racial demographics of each city/state, which are identified by population numbers (`white_pop`, `black_pop`, `asian_pop`), etc. My outcome variable of interest is the percentage of the populations to identify disproportionate population numbers (`pct_white`, `pct_black`, `pct_asian`), etc. Variable `holc_grade` could also be an outcome variable of interest in comparing grades to Asian population numbers. The observed pattern in the data that would support my hypothesis is if the areas in the study had lower Asian populations in comparison to the other racial demographic groups. Additionally, the populations with disproportionately lower Asian populations will have received lower grades in comparison. A pattern that would disprove my hypothesis is if Asian populations are higher in comparison to other minority groups in the city/states, or if the grades received due to lower Asian populations remain high. 
+Key variables I will be analyzing in this study are `holc_grade`, `black_pop`, `total_pop`, `pct_black`, `pct_white`, and `lq_black`. The variable `holc_grade` was measured through a grade of A-D given to each `metro_area` by the Home Owners' Loan Corporation (HOLC). The variable `metro_area` contains all of the HOLC zones (micro- and metropolitan areas) in the study. The variables `black_pop` and `total_pop` were determined by data from the 2020 U.S. decennial census and are population estimates within each HOLC zone. The variables `pct_black` and `pct_white` were determined by data from the 2020 U.S. decennial census and are estimates of the total racial population within each HOLC zone in comparison to the rest of the total HOLC zone population. The variable `lq_black` is the Black location quotient given to each `metro_area`. According to the study, "LQs are small-area measures of segregation that specifically compare one racial/ethnic group’s proportion in a granular geography to their proportion in a larger surrounding geography. An LQ above 1 for a given racial group indicates overrepresentation in that HOLC zone relative to the broader surrounding area, and values below 1 indicate underrepresentation" (FiveThirtyEight). 
 
-## One data visualization
+Throughout my data sections, I have analyzed data for both my main focus of Black populations, as well as included data of white populations as well. This is to show a variation of treatment effect in the (complete) opposite direction for this study. I have done this to show how the treatment worked in the opposite way for the majority population of the time, and to acccount for variations in how the treatment impacted a different demographic group to the one I am focusing on. 
 
 ```{r}
 library(tidyverse)
@@ -30,48 +33,186 @@ library(dplyr)
 ```{r}
 metro <- read_csv("data/metro-grades.csv")
 ```
-
+```{r}
+ggplot(metro, aes(x = holc_grade, y = pct_black, fill = holc_grade)) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(
+    x = "HOLC Grade",
+    y = "Black Percentage",
+    title = "Black Percentage by HOLC Grade"
+  ) +
+  scale_fill_manual(values = c("A" = "green", "B" = "blue", "C" = "yellow", "D" = "red"))
+```
+The main outcome of interest in this study is the Black population percentage of a metro area in comparison to the rest of the metro area's demographics. This bar graph demonstrates the relationship between the Black population increase of today and the past HOLC grade the metro area received. As the Black population percentage of an area increases, the more likely they were to receive a worse score.  
 
 ```{r}
-options(scipen = 999)
+ggplot(metro, aes(x = holc_grade, y = pct_white, fill = holc_grade)) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(
+    x = "HOLC Grade",
+    y = "White Percentage",
+    title = "White Percentage by HOLC Grade"
+  ) +
+  scale_fill_manual(values = c("A" = "green", "B" = "blue", "C" = "yellow", "D" = "red"))
+```
+To further demonstrate this, I have provided a plot with the opposite relationship. This bar graph demonstrates the relationship between the white population increase of today and the past HOLC grade the metro area received. As the white population percentage of an area increases, the more likely they were to receive a better score. 
+
+This study is an observational study because the data has not been manipulated by researchers. Instead, it is data collected by researchers from one point in time (2020 U.S. decennial census) and is compared to the 1935-1940 grades given to metro zones by the HOLC. The data involves the collection of existing records and databases.
+
+This study is a cross-sectional study because the data has been collected from one single point in time to understand relationships with variables without any follow-up. In this case, the HOLC grade, or the act of greenlining-redlining, would be considered the treatment, which is then used to see how these neighborhoods today are comprised. If previously redlined neighboorhoods today are similar, then the treatment, or the act of redlining, could be seen as effective or significant. If their population demographics have changed, then the treatment could be seen as ineffective or insignificant. Thus, if current metro areas with significant Black populations were redlined, like my hypothesis suggests, then the treatment could be seen as effective. 
+
+```{r}
+pop_table <- metro |>
+  group_by(holc_grade) |>
+summarize(black_pop_mean = mean(black_pop, na.rm = TRUE), total_pop_mean = mean(total_pop, na.rm = TRUE))
+knitr::kable(pop_table, col.names = c("HOLC Grade", "Mean of Black Population", "Mean of Total Population"))
+pop_table
+```
+
+This table lays out each possible HOLC grade, the mean of all Black populations identified in the study, and the mean of all total populations identified in the study. The purpose of this table is to again show disproportionately among Black populations and how it relates to lower scores. The proportion of A HOLC grades 2040.935/17312.38 in this context is 0.11788875937. The proportion of B HOLC grades 12048.362/63200.23 in this context is 0.19063794546. The proportion of C HOLC grades 28282.212/136444.43 in this context is 0.20728007731. The proportion of D HOLC grades 20659.978/78458.62 in this context is 0.26332323969. The disproportions between the average Black population in comparison to the average total populations are highest with grade D and C, the lowest grades. The difference between the D and A scores is 0.14543448032, meaning the areas were 14.5% more likely to receive a score of D then A if they had a higher Black population. This also shows how similar the population makeup of these areas are today in comparison to the 1935-1940 grading, and how its impacts are still relevant. 
+
+```{r}
+rep_table <- very_under_rep <- sum(metro$lq_black > 0.00 & metro$lq_black <= 0.05)
+under_rep <- sum(metro$lq_black > 0.05 & metro$lq_black < 1.0)
+equal_rep <- sum(metro$lq_black == 1.0)
+over_rep <- sum(metro$lq_black > 1.0 & metro$lq_black <= 1.5)
+very_over_rep <- sum(metro$lq_black > 1.5)
+
+knitr::kable(
+  cbind(
+     Title = c(
+      "LQ Scores Between 0.00 and 0.05",
+      "LQ Scores Between 0.05 and 1.0",
+      "LQ Scores Equal to 1.0",
+      "LQ Scores Between 1.0 and 1.5",
+      "LQ Scores Greater than 1.5"),
+    Count = c(very_under_rep, under_rep, equal_rep, over_rep, very_over_rep)),
+  col.names = c("Range", "Count"),
+  caption = "Counts of Black LQ Scores in Different Ranges")
+```
+
+Interestingly, there is an almost even amount of overrepresentation and underrepresentation of the Black population within the metro areas. 267 areas face underrepresentation of Black people in relation to the broader surrounding area, 278 areas face overrepresentation of Black people in relation to the broader surrounding area and just 7 areas contain a proportionate Black population in relation to the broader surrounding area. This table serves as an example of how redlining has further skewed Black population demographics amongst the metro areas evaluated and in their surrounding areas. 
+
+## Results
+
+```{r}
+black_total_grade <- options(scipen = 999)
 ggplot(data = metro,
        mapping = aes(x = total_pop,
-                     y = pct_asian,
+                     y = pct_black,
                      color = holc_grade
                      )) +
   geom_point() +
   geom_smooth(method = "loess", se = FALSE) +
   scale_x_log10() +
   labs(x = "Total Population of Metro Area",
-       y = "Percentage of Asian Population Compared to Total Population",
-       title = "Comparison Between Asian and Total Population of Metro Areas",
+       y = "Percentage of Black Population Compared to Total Population",
+       title = "Comparison Between Black and Total Population of Metro Areas",
        caption = "Source: FiveThirtyEight",
-       color = "HOLC Grade")
+       color = "HOLC Grade") +
+  scale_color_manual(values = c("A" = "green", "B" = "blue", "C" = "yellow", "D" = "red"))
+black_total_grade
 ```
+This plot offers a comparison between the Black population percentage of each metro area with its total population. The plot contains data of the percentage of Black population in comparison to the total population for each `metro_area`, the total population of each `metro_area`, and the HOLC grade of each `metro_area`. The scatter plot clearly shows that as the percentage of the Black population increases within a metro area, it is more likely to be redlined (receive a D). By comparing the percentage of the Black population with the total population of a metro area, it is identified that the larger the Black population is, despite its overall population, the more common it is to receive a D, followed by C, then B, and lastly A, which is in line with my hypothesis. If the percentage of the Black population in comparison to the rest of the population is lower, then the area is more likely to have a better score. This demonstrates how the old grading system has impacted the population concentrations of today, and how Black populations were more likely to receive lower scores. 
 
-## Add results from one analysis
+```{r}
+white_total_grade <- options(scipen = 999)
+ggplot(data = metro,
+       mapping = aes(x = total_pop,
+                     y = pct_white,
+                     color = holc_grade
+                     )) +
+  geom_point() +
+  geom_smooth(method = "loess", se = FALSE) +
+  scale_x_log10() +
+  labs(x = "Total Population of Metro Area",
+       y = "Percentage of White Population Compared to Total Population",
+       title = "Comparison Between White and Total Population of Metro Areas",
+       caption = "Source: FiveThirtyEight",
+       color = "HOLC Grade") +
+  scale_color_manual(values = c("A" = "green", "B" = "blue", "C" = "yellow", "D" = "red"))
+white_total_grade
+```
+Conversely, the scatter plot contains data of the percentage of the white population in comparison to the total population for each `metro_area`, the total population of each `metro_area`, and the HOLC grade of each `metro_area`. As the percentage of the white population of a metro area in comparison to the rest of its population increases, its HOLC score goes up. Areas with higher white population percentages were most likely to receive an A, followed by B, then C, and lastly D. This proves that a larger and disproportionate amount of white people continue to live in the areas determined the "best" by the 1935-1940 HOLC rankings, continuing to reap the benefits of the grading system today.
 
 ```{r}
 library(broom)
 
-regression_1 <- lm(pct_asian ~ holc_grade, data = metro)
-regression_1 |>
+regression_black <- lm(pct_black ~ holc_grade, data = metro)
+regression_black |>
   broom::tidy() |>
   select(term, estimate) |>
   knitr::kable(digits = 2)
-
 ```
 
 ```{r}
 library(broom)
 
-regression_2 <- lm(pct_white ~ holc_grade, data = metro)
-regression_2 |>
+regression_white <- lm(pct_white ~ holc_grade, data = metro)
+regression_white |>
   broom::tidy() |>
   select(term, estimate) |>
   knitr::kable(digits = 2)
-
 ```
 
-The variable pct_asian represents the estimate of the perctange of the total population within the HOLC zone that are non-Hispanic Asian. The variable pct_white represents the estimate of the percentage of the total population within the HOLC zone that are non-Hispanic White. The variable holc_grade represents the grade assigned by the Home Owners' Loan Corporation (HOLC). An A is "best", a B is "Still Desirable", a C is "Definitely Declining", and a D is "Hazardous". The regression tables show the relationships between pct_asian and  holc_grade and pct_white and holc_grade. For pct_asian, the holc_grade gets higher as pct_asian increases. For pct_white, the holc_grade gets lower as pct_white increases. This shows there is relationship between what grade a metro_area receives and what its pct_asian population is versus its pct_white population.
+These regression tables further develop the main analysis of my study. As seen in regression_black, when all other predictors are zero, the mean of `pct_black` in correspondence to an A grade is 8.89. From there, as the scores get lower, the average change in `pct_black` increases, expecting from the point of inference A to increase 7.72 percentage points for grade B, 14.12 percentage points for grade C, and 22.56 percentage points for grade D. As seen in regression_white, when all other predictors are zero, the mean of `pct_white` in correspondence to an A grade is 73.78. From there, as the scores get lower, the average change in `pct_white` decreases, expecting from the point of inference A to decrease 13.84 percentage points for grade B, 25.12 percentage points for grade C, and 34.38 percentage points for grade D. As `pct_black` increases, `holc_grade` decreases. As `pct_white` increases, `holc_grade` increases.
 
+This shows an effectiveness in treatment, as the previously redlined neighborhoods have remained to be comprised in the same way as they were when they were first graded. Additionally, the population demographics of the previously greenlined neighborhoods have also remained similar. 
+
+```{r}
+fit_black <- lm(pct_black ~ holc_grade,
+              data = metro)
+summary(fit_black)
+```
+
+```{r}
+var_labels <- c(
+  "(Intercept)" = "Intercept",
+  "holc_gradeB" = "HOLC Grade B",
+  "holc_gradeC" = "HOLC Grade C",
+  "holc_gradeD" = "HOLC Grade D"
+)
+modelsummary::modelsummary(fit_black,
+                           statistic = c("s.e. = {std.error}",
+                                         "p = {p.value}"),
+                           coef_map = var_labels,
+                           gof_map = c("nobs", "r.squared", "adj.r.squared"))
+```
+
+```{r}
+fit_white <- lm(pct_white ~ holc_grade,
+              data = metro)
+summary(fit_white)
+```
+
+```{r}
+var_labels <- c(
+  "(Intercept)" = "Intercept",
+  "holc_gradeB" = "HOLC Grade B",
+  "holc_gradeC" = "HOLC Grade C",
+  "holc_gradeD" = "HOLC Grade D"
+)
+modelsummary::modelsummary(fit_white,
+                           statistic = c("s.e. = {std.error}",
+                                         "p = {p.value}"),
+                           coef_map = var_labels,
+                           gof_map = c("nobs", "r.squared", "adj.r.squared"))
+```
+
+The regression run proves statistical significance in my data. With a p-value of p = <0.001, it proves that these data results are highly statistically significant and not due to random chance. In terms of the situation at hand, they mean that the redlining had a direct effect on the population demographics to this day, and they remain similar to what they were at the time of the first grading. 
+
+The main coefficient of interest in my regressional analysis is the `holc_grade` coefficients. As proven by the p-value, these coefficients are statistically significant, and it can be observed that the relationship between `holc_grade` and `pct_black` and `holc_grade` and `pct_white` was unlikely to happen due to chance. However, in regards to observing this relationship causally, caution is necessary. The observed relationship between `holc_grade` and `pct_black` and `pct_white` could be influenced by various other unmeasured or uncontrolled factors. So, the regression analysis has uncovered an association between the variables, but inferring causality solely from this regression analysis could be misleading as it does not establish causation itself. 
+
+## Conclusion
+
+The results of my study have shown that the grades given to metro areas by the HOLC from 1935-1940 have left lasting impressions on the population demographics of these metro areas today. I have established a correlation between the percentage of a racial demographic of a metro area in comparison to its total population and the HOLC grade the metro area received. The larger the Black population is in the metro area, the more likely they were to receive a low HOLC grade. The larger the white population is in the metro area, the more likely they were to receive a high HOLC grade. This relationship has been proved statistically significant through a regressional analysis of the variables.
+
+My hypothesis has been proven. The larger the Black population was in a metro area today, the more likely they were to receive a lower grade previously. Also, the population demographics at the time of the initial grading have remained similar today. However, there are some limitations in this analysis due to confounding variables. Other factors, not just the HOLC grades, may have impacted the population demographics of today's metro areas. This includes geographical location, familial relationships, and policy interventions beyond the HOLC system. Additionally, a reverse causality may have been predetermined, as when the HOLC was conducting their grading, areas with larger Black populations were given lower grades from the start. With more time and money, further analysis could be done to follow the census trends over time, not just comparing the 2020 results, to confirm this imprint that the HOLC grading system has left. Additionally, other factors could be accounted for, not just population demographics, of the areas as well, like financial stability and quality of life. But, the socioeconomic factors likely contributing to this phenomenon were pushed through due to the HOLC grading system, demonstrating that this treatment is what led to the results of the population demographics of today. 
+
+This data is important because it confirms the longlasting negative impact that redlining has had on cities across the United States. Today, those within redlined areas continue to deal with the negative consequences that the HOLC grade placed upon them, while those in greenlined areas have been able to benefit from the system. Reversing the systemic effects of redlining is crucial to promote equity, address systemic inequality, foster economic growth, and build diverse and inclusive communities. 
+
+## Sources
+
+Mejía, Ryan Best, Elena. “The Lasting Legacy Of Redlining.” FiveThirtyEight, 9 Feb. 2022, https://projects.fivethirtyeight.com/redlining/.
+
+https://github.com/fivethirtyeight/data/tree/master/redlining
