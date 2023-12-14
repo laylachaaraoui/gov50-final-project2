@@ -43,7 +43,7 @@ ggplot(metro, aes(x = holc_grade, y = pct_black, fill = holc_grade)) +
     caption = "Source: FiveThirtyEight") +
   scale_fill_manual(values = c("A" = "green", "B" = "blue", "C" = "yellow", "D" = "red"))
 ```
-The main outcome of interest in this study is the Black population percentage of a metro area in comparison to the rest of the metro area's demographics. This bar graph demonstrates the relationship between the Black population increase of today and the past HOLC grade the metro area received. As the Black population percentage of an area increases, the more likely they were to receive a worse score.  
+The main outcome of interest in this study is the Black population percentage of a metro area in comparison to the rest of the metro area's demographics. This bar graph demonstrates the relationship between the Black population increase of today and the past HOLC grade the metro area received. As the Black population percentage of an area increases, the more likely they were to receive a worse score.   
 
 ```{r}
 ggplot(metro, aes(x = holc_grade, y = pct_white, fill = holc_grade)) +
